@@ -1,87 +1,3 @@
-<style>
-  body {
-    background-color: #121212;
-    color: #ffffff;
-  }
-
-  .main-footer {
-    background-color: #1e1e1e;
-    color: #ffffff;
-  }
-
-  .main-footer a {
-    color: #14453d;
-  }
-
-  .main-footer a:hover {
-    color: #0f332d;
-  }
-
-  .btn,
-  .btn-primary,
-  .btn-default,
-  .applyBtn {
-    background-color: #14453d;
-    border-color: #14453d;
-    color: #ffffff;
-  }
-
-  .btn:hover,
-  .btn-primary:hover,
-  .btn-default:hover,
-  .applyBtn:hover {
-    background-color: #0f332d;
-    border-color: #0f332d;
-  }
-
-  .modal-content {
-    background-color: #1e1e1e;
-    color: #ffffff;
-  }
-
-  .modal-header,
-  .modal-footer {
-    border-color: #14453d;
-  }
-
-  .modal-title {
-    color: #14453d;
-  }
-
-  .daterangepicker {
-    background-color: #1e1e1e;
-    color: #ffffff;
-  }
-
-  .daterangepicker .ranges li,
-  .daterangepicker .drp-buttons button {
-    color: #ffffff;
-  }
-
-  .daterangepicker .ranges li:hover,
-  .daterangepicker .drp-buttons button:hover {
-    background-color: #14453d;
-  }
-
-  .daterangepicker .drp-calendar {
-    background-color: #1e1e1e;
-  }
-
-  .daterangepicker .calendar-table {
-    color: #ffffff;
-  }
-
-  .daterangepicker .calendar-table td.active,
-  .daterangepicker .calendar-table td.active:hover {
-    background-color: #14453d;
-  }
-
-  .jqvmap-label {
-    background-color: #1e1e1e;
-    color: #ffffff;
-  }
-</style>
-
 <script>
   $(document).ready(function() {
     $('.list-group').each(function() {
@@ -108,8 +24,8 @@
         focus: true
       })
       end_loader()
-    }
 
+    }
     window.uni_modal = function($title = '', $url = '', $size = "") {
       start_loader()
       $.ajax({
@@ -138,7 +54,6 @@
         }
       })
     }
-
     window._conf = function($msg = '', $func = '', $params = []) {
       $('#confirm_modal #confirm').attr('onclick', $func + "(" + $params.join(',') + ")")
       $('#confirm_modal .modal-body').html($msg)
@@ -146,7 +61,6 @@
     }
   })
 </script>
-
 <footer class="main-footer text-sm">
   <div class="container">
     <strong>Copyright © <?php echo date('Y') ?>.
