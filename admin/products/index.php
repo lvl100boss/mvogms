@@ -1,15 +1,67 @@
-<?php if($_settings->chk_flashdata('success')): ?>
-<script>
-	alert_toast("<?php echo $_settings->flashdata('success') ?>",'success')
-</script>
-<?php endif;?>
+<?php if ($_settings->chk_flashdata('success')): ?>
+	<script>
+		alert_toast("<?php echo $_settings->flashdata('success') ?>", 'success')
+	</script>
+<?php endif; ?>
 <style>
-	.product-img{
+	body {
+		background-color: #121212;
+		color: #e0e0e0;
+	}
+
+	.card {
+		background-color: #1e1e1e;
+		border: 1px solid #14453d;
+	}
+
+	.card-header {
+		background-color: #14453d;
+		color: #ffffff;
+	}
+
+	.table {
+		color: #e0e0e0;
+	}
+
+	.table th,
+	.table td {
+		border-color: #14453d;
+	}
+
+	.table thead {
+		background-color: #14453d;
+	}
+
+	.table thead th {
+		color: #ffffff;
+	}
+
+	.product-img {
 		width: calc(100%);
 		height: auto;
 		max-width: 5em;
-		object-fit:scale-down;
-		object-position:center center;
+		object-fit: scale-down;
+		object-position: center center;
+	}
+
+	.btn,
+	.dropdown-item {
+		background-color: #14453d;
+		color: #ffffff;
+	}
+
+	.btn:hover,
+	.dropdown-item:hover {
+		background-color: #0f3a32;
+		color: #ffffff;
+	}
+
+	.badge-success {
+		background-color: #28a745;
+	}
+
+	.badge-danger {
+		background-color: #dc3545;
 	}
 </style>
 <div class="card card-outline card-primary">
@@ -18,7 +70,6 @@
 	</div>
 	<div class="card-body">
 		<div class="container-fluid">
-        <div class="container-fluid">
 			<table class="table table-bordered table-stripped">
 				<colgroup>
 					<col width="5%">
@@ -30,7 +81,7 @@
 					<col width="15%">
 				</colgroup>
 				<thead>
-					<tr class="bg-gradient-secondary">
+					<tr class="bg-black">
 						<th>#</th>
 						<th>Date Created</th>
 						<th>Image</th>
@@ -41,78 +92,80 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php 
+					<?php
 					$i = 1;
-						$qry = $conn->query("SELECT p.*,v.code, v.shop_name as `vendor` from `product_list` p inner join vendor_list v on p.vendor_id = v.id where p.delete_flag = 0 order by p.`name` asc ");
-						while($row = $qry->fetch_assoc()):
+					$qry = $conn->query("SELECT p.*,v.code, v.shop_name as `vendor` from `product_list` p inner join vendor_list v on p.vendor_id = v.id where p.delete_flag = 0 order by p.`name` asc ");
+					while ($row = $qry->fetch_assoc()):
 					?>
 						<tr>
 							<td class="text-center"><?php echo $i++; ?></td>
-							<td><?php echo date("Y-m-d H:i",strtotime($row['date_created'])) ?></td>
+							<td><?php echo date("Y-m-d H:i", strtotime($row['date_created'])) ?></td>
 							<td class="text-center"><img src="<?= validate_image($row['image_path']) ?>" alt="Product Image" class="border border-gray img-thumbnail product-img"></td>
 							<td>
-								<div class="border-bottom text-truncate"><?= $row['code'].'-'.$row['vendor'] ?></div>
+								<div class="border-bottom text-truncate"><?= $row['code'] . '-' . $row['vendor'] ?></div>
 								<div class="text-truncate"><?= $row['name'] ?></div>
 							</td>
 							<td class="text-right"><?php echo format_num($row['price']) ?></td>
 							<td class="text-center">
-                                <?php if($row['status'] == 1): ?>
-                                    <span class="badge badge-success bg-gradient-success px-3 rounded-pill">Active</span>
-                                <?php else: ?>
-                                    <span class="badge badge-danger bg-gradient-danger px-3 rounded-pill">Inactive</span>
-                                <?php endif; ?>
-                            </td>
+								<?php if ($row['status'] == 1): ?>
+									<span class="badge badge-success bg-gradient-success px-3 rounded-pill">Active</span>
+								<?php else: ?>
+									<span class="badge badge-danger bg-gradient-danger px-3 rounded-pill">Inactive</span>
+								<?php endif; ?>
+							</td>
 							<td align="center">
-								 <button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">
-				                  		Action
-				                    <span class="sr-only">Toggle Dropdown</span>
-				                  </button>
-				                  <div class="dropdown-menu" role="menu">
-				                    <a class="dropdown-item view_data" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>"><span class="fa fa-eye text-dark"></span> View</a>
-				                  </div>
+								<button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">
+									Action
+									<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								<div class="dropdown-menu" role="menu">
+									<a class="dropdown-item view_data" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>"><span class="fa fa-eye text-dark"></span> View</a>
+								</div>
 							</td>
 						</tr>
 					<?php endwhile; ?>
 				</tbody>
 			</table>
 		</div>
-		</div>
 	</div>
 </div>
 <script>
-	$(document).ready(function(){
-		$('#create_new').click(function(){
-			uni_modal('Add New Product',"products/manage_product.php",'large')
+	$(document).ready(function() {
+		$('#create_new').click(function() {
+			uni_modal('Add New Product', "products/manage_product.php", 'large')
 		})
-		$('.view_data').click(function(){
-			uni_modal('View Product Details',"products/view_product.php?id="+$(this).attr('data-id'),'large')
+		$('.view_data').click(function() {
+			uni_modal('View Product Details', "products/view_product.php?id=" + $(this).attr('data-id'), 'large')
 		})
-		$('.edit_data').click(function(){
-			uni_modal('Update Product',"products/manage_product.php?id="+$(this).attr('data-id'),'large')
+		$('.edit_data').click(function() {
+			uni_modal('Update Product', "products/manage_product.php?id=" + $(this).attr('data-id'), 'large')
 		})
-		$('.delete_data').click(function(){
-			_conf("Are you sure to delete this product permanently?","delete_product",[$(this).attr('data-id')])
+		$('.delete_data').click(function() {
+			_conf("Are you sure to delete this product permanently?", "delete_product", [$(this).attr('data-id')])
 		})
 		$('table th,table td').addClass('align-middle px-2 py-1')
 		$('.table').dataTable();
 	})
-	function delete_product($id){
+
+	function delete_product($id) {
 		start_loader();
 		$.ajax({
-			url:_base_url_+"classes/Master.php?f=delete_product",
-			method:"POST",
-			data:{id: $id},
-			dataType:"json",
-			error:err=>{
+			url: _base_url_ + "classes/Master.php?f=delete_product",
+			method: "POST",
+			data: {
+				id: $id
+			},
+			dataType: "json",
+			error: err => {
 				console.log(err)
-				alert_toast("An error occured.",'error');
+				alert_toast("An error occured.", 'error');
 				end_loader();
 			},
-			success:function(resp){
-				if(typeof resp== 'object' && resp.status == 'success'){
+			success: function(resp) {
+				if (typeof resp == 'object' && resp.status == 'success') {
 					location.reload();
-				}else{
-					alert_toast("An error occured.",'error');
+				} else {
+					alert_toast("An error occured.", 'error');
 					end_loader();
 				}
 			}

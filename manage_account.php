@@ -81,7 +81,7 @@ foreach ($user->fetch_array() as $k => $v) {
 </style>
 
 <div class="content py-3"></div>
-<div class="card card-outline rounded-0 card-primary shadow">
+<div class="card card-outline rounded-0 border-0 card-primary shadow">
 	<div class="card-body">
 		<div class="container-fluid">
 			<div id="msg"></div>
