@@ -2,6 +2,12 @@
 <!DOCTYPE html>
 <html lang="en" class="" style="height: auto;">
 <style>
+  body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Arial', sans-serif;
+  }
+
   #header {
     height: 70vh;
     width: calc(100%);
@@ -18,6 +24,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
+    filter: brightness(0.5);
   }
 
   #header>div {
@@ -27,8 +34,12 @@
     z-index: 2;
   }
 
+  #top-Nav a.nav-link {
+    color: #e0e0e0;
+  }
+
   #top-Nav a.nav-link.active {
-    color: #343a40;
+    color: #14453d;
     font-weight: 900;
     position: relative;
   }
@@ -36,7 +47,7 @@
   #top-Nav a.nav-link.active:before {
     content: "";
     position: absolute;
-    border-bottom: 2px solid #343a40;
+    border-bottom: 2px solid #14453d;
     width: 33.33%;
     left: 33.33%;
     bottom: 0;
@@ -44,14 +55,14 @@
 
   @media (max-width:760px) {
     #top-Nav a.nav-link.active {
-      background: #343a40db;
+      background: #14453d;
       color: #fff;
     }
 
     #top-Nav a.nav-link.active:before {
       content: "";
       position: absolute;
-      border-bottom: 2px solid #343a40;
+      border-bottom: 2px solid #14453d;
       width: 100%;
       left: 0;
       bottom: 0;
@@ -61,9 +72,52 @@
       font-size: 2.5em !important;
     }
   }
+
+  .btn-primary {
+    background-color: #14453d;
+    border-color: #14453d;
+  }
+
+  .btn-primary:hover {
+    background-color: #0f3a32;
+    border-color: #0f3a32;
+  }
+
+  .modal-content {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+  }
+
+  .modal-header,
+  .modal-footer {
+    border-color: #333;
+  }
+
+  .modal-header .close {
+    color: #e0e0e0;
+  }
+
+  .modal-header .close:hover {
+    color: #fff;
+  }
+
+  .site-title {
+    color: #e0e0e0;
+  }
+
+  .content-wrapper {
+    background-color: #1e1e1e;
+  }
+
+  a {
+    color: #14453d;
+  }
+
+  a:hover {
+    color: #0f3a32;
+  }
 </style>
 <?php require_once('inc/header.php') ?>
-
 
 <body class="layout-top-nav layout-fixed layout-navbar-fixed font-mono" style="height: auto;">
   <div class="wrapper">
@@ -75,17 +129,17 @@
       </script>
     <?php endif; ?>
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper pt-5" style="">
+    <div class="content-wrapper pt-5 bg-black" style="">
       <?php if ($page == "home" || $page == "about"): ?>
         <div id="header" class="shadow mb-4">
           <div class="d-flex justify-content-center h-100 w-100 align-items-center flex-column px-3">
-            <h1 class="w-100 text-center site-title px-5">CLOTHING FOR THE MODERN FASHIONISTA</h1>
+            <h1 class="w-100 text-center site-title px-5 font-italic">CLOTHING FOR THE MODERN FASHIONISTA</h1>
             <!-- <h3 class="w-100 text-center px-5 site-subtitle"><?php echo $_settings->info('name') ?></h3> -->
           </div>
         </div>
       <?php endif; ?>
       <!-- Main content -->
-      <section class="content ">
+      <section class="content bg-black">
         <div class="container">
           <?php
           if (!file_exists($page . ".php") && !is_dir($page)) {
