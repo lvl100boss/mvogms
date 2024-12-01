@@ -1,169 +1,239 @@
-<?php 
-if(isset($_GET['id'])){
-	$client = $conn->query("SELECT * FROM client_list where id ='".$_GET['id']."'");
-	if($client->num_rows > 0){
+<?php
+if (isset($_GET['id'])) {
+	$client = $conn->query("SELECT * FROM client_list where id ='" . $_GET['id'] . "'");
+	if ($client->num_rows > 0) {
 		$res = $client->fetch_array();
-		foreach($res as $k =>$v){
+		foreach ($res as $k => $v) {
 			$$k = $v;
 		}
-	}else{
+	} else {
 		echo '<script> alert("Unknown Client"); location.replace("./?page=clients")</script>';
 	}
-
-}else{
+} else {
 	echo '<script> alert("Unknown Client"); location.replace("./?page=clients")</script>';
 }
 ?>
-<?php if($_settings->chk_flashdata('success')): ?>
-<script>
-	alert_toast("<?php echo $_settings->flashdata('success') ?>",'success')
-</script>
-<?php endif;?>
+<?php if ($_settings->chk_flashdata('success')): ?>
+	<script>
+		alert_toast("<?php echo $_settings->flashdata('success') ?>", 'success')
+	</script>
+<?php endif; ?>
 
 <style>
-	#cimg{
-          width:200px;
-          height:200px;
-          object-fit:scale-down;
-          object-position:center center
-      }
+	body {
+		background-color: #121212;
+		color: #e0e0e0;
+	}
+
+	.card {
+		background-color: #1e1e1e;
+	}
+
+	.form-control,
+	.form-control-border,
+	.select2-container--default .select2-selection--single {
+		background-color: #2c2c2c;
+		color: #e0e0e0;
+		border-color: #444;
+	}
+
+	.form-control:focus,
+	.form-control-border:focus,
+	.select2-container--default .select2-selection--single:focus {
+		background-color: #2c2c2c;
+		color: #e0e0e0;
+		border-color: #14453d;
+	}
+
+	.input-group-text {
+		background-color: #2c2c2c;
+		color: #e0e0e0;
+		border-color: #444;
+	}
+
+	.btn-primary {
+		background-color: #14453d;
+		border-color: #14453d;
+	}
+
+	.btn-primary:hover {
+		background-color: #0f3a32;
+		border-color: #0f3a32;
+	}
+
+	.text-reset {
+		color: #14453d;
+	}
+
+	.text-reset:hover {
+		color: #0f3a32;
+	}
+
+	.img-thumbnail {
+		background-color: #2c2c2c;
+		border-color: #444;
+	}
+
+	.alert {
+		background-color: #2c2c2c;
+		color: #e0e0e0;
+		border-color: #444;
+	}
+
+	.select2-container--default .select2-selection--single {
+		background-color: #2c2c2c;
+		color: #e0e0e0;
+		border-color: #444;
+	}
+
+	.select2-container--default .select2-selection--single .select2-selection__arrow {
+		background-color: #2c2c2c;
+		color: #e0e0e0;
+	}
+
+	#cimg {
+		width: 200px;
+		height: 200px;
+		object-fit: scale-down;
+		object-position: center center
+	}
 </style>
 <div class="content py-3"></div>
-	<div class="card card-outline rounded-0 card-primary shadow">
-		<div class="card-body">
-			<div class="container-fluid">
-				<div id="msg"></div>
-				<form action="" id="manage-user">	
-					<input type="hidden" name="id" value="<?php echo isset($id) ? $id : '' ?>">
-					<div class="row">
-                        <div class="form-group col-md-4">
-                            <label for="firstname" class="control-label">First Name</label>
-                            <input type="text" id="firstname" autofocus name="firstname" class="form-control form-control-sm form-control-border" value="<?= isset($firstname) ? $firstname : "" ?>" required>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="middlename" class="control-label">Middle Name</label>
-                            <input type="text" id="middlename" name="middlename" class="form-control form-control-sm form-control-border" value="<?= isset($middlename) ? $middlename : "" ?>" placeholder="optional">
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="lastname" class="control-label">Last Name</label>
-                            <input type="text" id="lastname" name="lastname" class="form-control form-control-sm form-control-border" value="<?= isset($lastname) ? $lastname : "" ?>" required>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="gender" class="control-label">Gender</label>
-                            <select type="text" id="gender" name="gender" class="form-control form-control-sm form-control-border select2" required>
-                                <option <?= isset($gender) && $gender == "Male" ? 'selected' : '' ?>>Male</option>
-                                <option <?= isset($gender) && $gender == "Female" ? 'selected' : '' ?>>Female</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="contact" class="control-label">Contact #</label>
-                            <input type="text" id="contact" name="contact" class="form-control form-control-sm form-control-border" value="<?= isset($contact) ? $contact : "" ?>" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-12">
-                            <label for="address" class="control-label">Address</label>
-                            <textarea rows="3" id="address" name="address" class="form-control form-control-sm rounded-0" required><?= isset($address) ? $address : "" ?></textarea>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="email" class="control-label">Email</label>
-                            <input type="email" id="email" name="email" class="form-control form-control-sm form-control-border" value="<?= isset($email) ? $email : "" ?>" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="password" class="control-label">Password</label>
-                            <div class="input-group input-group-sm">
-                                <input type="password" id="password" name="password" class="form-control form-control-sm form-control-border">
-                                <div class="input-group-append bg-transparent border-top-0 border-left-0 border-right-0 rounded-0">
-                                    <span class="input-group-text bg-transparent border-top-0 border-left-0 border-right-0 rounded-0">
-                                        <a href="javascript:void(0)" class="text-reset text-decoration-none pass_view"> <i class="fa fa-eye-slash"></i></a>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="cpassword" class="control-label">Confirm Password</label>
-                            <div class="input-group input-group-sm">
-                                <input type="password" id="cpassword" class="form-control form-control-sm form-control-border">
-                                <div class="input-group-append bg-transparent border-top-0 border-left-0 border-right-0 rounded-0">
-                                    <span class="input-group-text bg-transparent border-top-0 border-left-0 border-right-0 rounded-0">
-                                        <a href="javascript:void(0)" class="text-reset text-decoration-none pass_view"> <i class="fa fa-eye-slash"></i></a>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-						<small class="text-muted"><i>Leave the New Password Fileds blank if you don't want to update it.</i></small>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="logo" class="control-label">Image</label>
-                            <input type="file" id="logo" name="img" class="form-control form-control-sm form-control-border" onchange="displayImg(this,$(this))" accept="image/png, image/jpeg">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-6 text-center">
-                            <img src="<?= validate_image(isset($avatar) ? $avatar : "") ?>" alt="Shop Logo" id="cimg" class="border border-gray img-thumbnail">
-                        </div>
-                    </div>
-					<div class="row">
-						<div class="form-group col-md-4">
-                            <label for="status" class="control-label">Status</label>
-                            <select type="text" id="status" name="status" class="form-control form-control-sm form-control-border select2" required>
-                                <option value="1" <?= isset($status) && $status == 1 ? 'selected' : '' ?>>Active</option>
-                                <option value="0" <?= isset($status) && $status == 0 ? 'selected' : '' ?>>Inactive</option>
-                            </select>
-                        </div>
+<div class="card card-outline rounded-0 card-primary shadow">
+	<div class="card-body">
+		<div class="container-fluid">
+			<div id="msg"></div>
+			<form action="" id="manage-user">
+				<input type="hidden" name="id" value="<?php echo isset($id) ? $id : '' ?>">
+				<div class="row">
+					<div class="form-group col-md-4">
+						<label for="firstname" class="control-label">First Name</label>
+						<input type="text" id="firstname" autofocus name="firstname" class="form-control form-control-sm form-control-border" value="<?= isset($firstname) ? $firstname : "" ?>" required>
 					</div>
-				</form>
-			</div>
-		</div>
-		<div class="card-footer text-center">
-				<button class="btn btn-sm btn-primary" form="manage-user">Update</button>
+					<div class="form-group col-md-4">
+						<label for="middlename" class="control-label">Middle Name</label>
+						<input type="text" id="middlename" name="middlename" class="form-control form-control-sm form-control-border" value="<?= isset($middlename) ? $middlename : "" ?>" placeholder="optional">
+					</div>
+					<div class="form-group col-md-4">
+						<label for="lastname" class="control-label">Last Name</label>
+						<input type="text" id="lastname" name="lastname" class="form-control form-control-sm form-control-border" value="<?= isset($lastname) ? $lastname : "" ?>" required>
+					</div>
+					<div class="form-group col-md-4">
+						<label for="gender" class="control-label">Gender</label>
+						<select type="text" id="gender" name="gender" class="form-control form-control-sm form-control-border select2" required>
+							<option <?= isset($gender) && $gender == "Male" ? 'selected' : '' ?>>Male</option>
+							<option <?= isset($gender) && $gender == "Female" ? 'selected' : '' ?>>Female</option>
+						</select>
+					</div>
+					<div class="form-group col-md-4">
+						<label for="contact" class="control-label">Contact #</label>
+						<input type="text" id="contact" name="contact" class="form-control form-control-sm form-control-border" value="<?= isset($contact) ? $contact : "" ?>" required>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-12">
+						<label for="address" class="control-label">Address</label>
+						<textarea rows="3" id="address" name="address" class="form-control form-control-sm rounded-0" required><?= isset($address) ? $address : "" ?></textarea>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-6">
+						<label for="email" class="control-label">Email</label>
+						<input type="email" id="email" name="email" class="form-control form-control-sm form-control-border" value="<?= isset($email) ? $email : "" ?>" required>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-6">
+						<label for="password" class="control-label">Password</label>
+						<div class="input-group input-group-sm">
+							<input type="password" id="password" name="password" class="form-control form-control-sm form-control-border">
+							<div class="input-group-append bg-transparent border-top-0 border-left-0 border-right-0 rounded-0">
+								<span class="input-group-text bg-transparent border-top-0 border-left-0 border-right-0 rounded-0">
+									<a href="javascript:void(0)" class="text-reset text-decoration-none pass_view"> <i class="fa fa-eye-slash"></i></a>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group col-md-6">
+						<label for="cpassword" class="control-label">Confirm Password</label>
+						<div class="input-group input-group-sm">
+							<input type="password" id="cpassword" class="form-control form-control-sm form-control-border">
+							<div class="input-group-append bg-transparent border-top-0 border-left-0 border-right-0 rounded-0">
+								<span class="input-group-text bg-transparent border-top-0 border-left-0 border-right-0 rounded-0">
+									<a href="javascript:void(0)" class="text-reset text-decoration-none pass_view"> <i class="fa fa-eye-slash"></i></a>
+								</span>
+							</div>
+						</div>
+					</div>
+					<small class="text-muted"><i>Leave the New Password Fileds blank if you don't want to update it.</i></small>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-6">
+						<label for="logo" class="control-label">Image</label>
+						<input type="file" id="logo" name="img" class="form-control form-control-sm form-control-border" onchange="displayImg(this,$(this))" accept="image/png, image/jpeg">
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-6 text-center">
+						<img src="<?= validate_image(isset($avatar) ? $avatar : "") ?>" alt="Shop Logo" id="cimg" class="border border-gray img-thumbnail">
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-4">
+						<label for="status" class="control-label">Status</label>
+						<select type="text" id="status" name="status" class="form-control form-control-sm form-control-border select2" required>
+							<option value="1" <?= isset($status) && $status == 1 ? 'selected' : '' ?>>Active</option>
+							<option value="0" <?= isset($status) && $status == 0 ? 'selected' : '' ?>>Inactive</option>
+						</select>
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
+	<div class="card-footer text-center">
+		<button class="btn btn-sm btn-primary" form="manage-user">Update</button>
+	</div>
+</div>
 </div>
 <script>
-	function displayImg(input,_this) {
-	    if (input.files && input.files[0]) {
-	        var reader = new FileReader();
-	        reader.onload = function (e) {
-	        	$('#cimg').attr('src', e.target.result);
-	        }
+	function displayImg(input, _this) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$('#cimg').attr('src', e.target.result);
+			}
 
-	        reader.readAsDataURL(input.files[0]);
-	    }else{
+			reader.readAsDataURL(input.files[0]);
+		} else {
 			$('#cimg').attr('src', "<?= validate_image(isset($avatar) ? $avatar : "") ?>");
 		}
 	}
-	
-	$(function(){
-		$('.pass_view').click(function(){
+
+	$(function() {
+		$('.pass_view').click(function() {
 			var _el = $(this).closest('.input-group')
 			var type = _el.find('input').attr('type')
-			if(type == 'password'){
-				_el.find('input').attr('type','text').focus()
+			if (type == 'password') {
+				_el.find('input').attr('type', 'text').focus()
 				$(this).find('i.fa').removeClass('fa-eye-slash').addClass('fa-eye')
-			}else{
-				_el.find('input').attr('type','password').focus()
+			} else {
+				_el.find('input').attr('type', 'password').focus()
 				$(this).find('i.fa').addClass('fa-eye-slash').removeClass('fa-eye')
 
 			}
 		})
-		$('#manage-user').submit(function(e){
+		$('#manage-user').submit(function(e) {
 			e.preventDefault();
 			var _this = $(this)
-				$('.err-msg').remove();
+			$('.err-msg').remove();
 			var el = $('<div>')
-				el.addClass("alert err-msg")
-				el.hide()
-			if(_this[0].checkValidity() == false){
+			el.addClass("alert err-msg")
+			el.hide()
+			if (_this[0].checkValidity() == false) {
 				_this[0].reportValidity();
 				return false;
-				}
-			if($('#password').val() != $('#cpassword').val()){
+			}
+			if ($('#password').val() != $('#cpassword').val()) {
 				el.addClass('alert-danger').text('Password does not match.')
 				_this.prepend(el)
 				el.show('slow')
@@ -172,7 +242,7 @@ if(isset($_GET['id'])){
 			}
 			start_loader();
 			$.ajax({
-				url:_base_url_+"classes/Users.php?f=save_client",
+				url: _base_url_ + "classes/Users.php?f=save_client",
 				data: new FormData($(this)[0]),
 				cache: false,
 				contentType: false,
@@ -180,21 +250,21 @@ if(isset($_GET['id'])){
 				method: 'POST',
 				type: 'POST',
 				dataType: 'json',
-				error:err=>{
+				error: err => {
 					console.error(err)
 					el.addClass('alert-danger').text("An error occured");
 					_this.prepend(el)
 					el.show('.modal')
 					end_loader();
 				},
-				success:function(resp){
-					if(typeof resp =='object' && resp.status == 'success'){
-						location.href="./?page=clients";
-					}else if(resp.status == 'failed' && !!resp.msg){
+				success: function(resp) {
+					if (typeof resp == 'object' && resp.status == 'success') {
+						location.href = "./?page=clients";
+					} else if (resp.status == 'failed' && !!resp.msg) {
 						el.addClass('alert-danger').text(resp.msg);
 						_this.prepend(el)
 						el.show('.modal')
-					}else{
+					} else {
 						el.text("An error occured");
 						console.error(resp)
 					}
@@ -205,5 +275,4 @@ if(isset($_GET['id'])){
 			})
 		})
 	})
-
 </script>
